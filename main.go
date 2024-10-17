@@ -66,7 +66,7 @@ func sendDiscordNotification(webhookURL string, message string) error {
 		return err
 	}
 	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusOK {
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
 		return fmt.Errorf("failed to send notification: %v", resp.Status)
 	}
 	return nil
@@ -142,16 +142,16 @@ func main() {
 
 		// イベントが明日開催されるか確認
 		if startTime.After(tomorrowStart) && startTime.Before(tomorrowEnd) {
-			// イベントの詳細をログ出力
-			log.Printf("イベント名: %s", event.Summary)
-			log.Printf("説明: %s", event.Description)
-			log.Printf("場所: %s", event.Location)
+			// イベントの詳細を info レベルでログ出力
+			log.Println("イベント名:", event.Summary)
+			log.Println("説明:", event.Description)
+			log.Println("場所:", event.Location)
 
 			if isAllDay {
-				log.Printf("終日イベント: %s", event.Summary)
+				log.Println("終日イベント:", event.Summary)
 			} else {
-				log.Printf("開始時間: %s", startTime.Format("2006-01-02 15:04:05"))
-				log.Printf("終了時間: %s", endTime.Format("2006-01-02 15:04:05"))
+				log.Println("開始時間:", startTime.Format("2006-01-02 15:04"))
+				log.Println("終了時間:", endTime.Format("2006-01-02 15:04"))
 			}
 
 			// 通知メッセージを作成（ログ出力に合わせた形式）
@@ -168,7 +168,7 @@ func main() {
 			if err != nil {
 				log.Printf("Error sending Discord notification: %v", err)
 			} else {
-				log.Printf("Notification sent for event: %s", event.Summary)
+				log.Println("Notification sent for event:", event.Summary)
 			}
 		}
 	}
