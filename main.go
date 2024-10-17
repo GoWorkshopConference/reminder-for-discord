@@ -83,11 +83,8 @@ func main() {
 	calendarID := os.Getenv("GOOGLE_CALENDAR_ID")
 	webhookURL := os.Getenv("DISCORD_WEBHOOK_URL")
 
-	// タイムゾーンを日本時間（Asia/Tokyo）に設定
-	location, err := time.LoadLocation("Asia/Tokyo")
-	if err != nil {
-		log.Fatalf("Unable to load location: %v", err)
-	}
+	// タイムゾーンを固定で日本時間（Asia/Tokyo）に設定
+	location := time.FixedZone("Asia/Tokyo", 9*60*60)
 
 	// 現在の日本時間の取得
 	now := time.Now().In(location)
