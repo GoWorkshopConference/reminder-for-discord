@@ -10,7 +10,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/joho/godotenv"
 	"google.golang.org/api/calendar/v3"
 	"google.golang.org/api/option"
 )
@@ -74,12 +73,6 @@ func sendDiscordNotification(webhookURL string, message string) error {
 }
 
 func main() {
-	// .envファイルをロード
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-
 	// Google Calendar APIのサービスを取得
 	calendarService, err := getCalendarService()
 	if err != nil {
