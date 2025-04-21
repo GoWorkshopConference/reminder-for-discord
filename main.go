@@ -106,6 +106,13 @@ func main() {
 		var startTime, endTime time.Time
 		var isAllDay bool
 
+		log.Println("Event ID:", event.Id)
+		log.Println("Event Summary:", event.Summary)
+		log.Println("Event Description:", event.Description)
+		log.Println("Event Location:", event.Location)
+		log.Println("Event Start DateTime:", event.Start.DateTime)
+		log.Println("Event End DateTime:", event.End.DateTime)
+
 		if event.Start.DateTime != "" {
 			// 時間が設定されているイベント
 			startTime, err = time.Parse(time.RFC3339, event.Start.DateTime)
